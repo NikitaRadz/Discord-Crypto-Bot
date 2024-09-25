@@ -1,13 +1,13 @@
 import discord # Discord Bot library
 from discord import app_commands
 from discord.ext import commands
-from config import botToken
+from config import botToken # Hides token for GitHub
+from crypto import * # Gets functions from Crytpo API
 
 intents = discord.Intents.all()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
-
 
 @bot.event
 async def on_ready():
@@ -18,11 +18,15 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-@bot.tree.command(name="hello")
-async def hello(interaction: discord.Interaction):
-    await interaction.response.send_message(f"Hey {interaction.user.mention}! This is a slash command!")
+# Lets you see the value of a coin with its name
+@bot.tree.command(name="getcoin")
+async def getCoin(interaction: discord.Interaction, coin_name: str):
+    try:
+        await interaction.response.send_message(getCoinValue(coin_name))
+    except Exception as e:
+        await interaction.response.send_message("Invalid input, try again", ephemeral=True)
 
-@bot.command()
+@bot.command() # Test command
 async def ping(ctx):
     await ctx.send(f"Pong! {round(bot.latency * 1000)}ms")
 
