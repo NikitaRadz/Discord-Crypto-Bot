@@ -2,7 +2,7 @@ import discord # Discord Bot library
 from discord import app_commands
 from discord.ext import commands
 from config import botToken # Hides token for GitHub
-from crypto import * # Gets functions from Crytpo API
+from crypto import * # Gets functions from Crypto API
 
 intents = discord.Intents.all()
 intents.message_content = True
@@ -25,6 +25,13 @@ async def getCoin(interaction: discord.Interaction, coin_name: str):
         await interaction.response.send_message(getCoinValue(coin_name))
     except Exception as e:
         await interaction.response.send_message("Invalid input, try again", ephemeral=True)
+
+@bot.tree.command(name="trending")
+async def getTrending(interaction: discord.Interaction):
+    try:
+        await interaction.response.send_message(trending())
+    except Exception as e:
+        await interaction.response.send_message(e, ephemeral=True)
 
 @bot.command() # Test command
 async def ping(ctx):

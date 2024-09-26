@@ -9,9 +9,14 @@ def getCoinValue(coinName):
     return result
 
 def trending():
+    finalList = ""
     url = "https://api.coingecko.com/api/v3/search/trending"
     response = requests.get(url)
     data = json.loads(response.text)
-    return data
+    
+    for coin in data['coins'][:5]:
+        extractedName = coin['item']['name']
+        extractedPrice = coin['item']['data']['price']
+        finalList += f"{extractedName} at ${extractedPrice} \n"
 
-print(trending())
+    return finalList
