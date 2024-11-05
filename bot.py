@@ -20,7 +20,7 @@ async def on_ready():
         print(e)
 
 # Lets you see the value of a coin with its name
-@bot.tree.command(name="getcoin")
+@bot.tree.command(name="getcoin", description="Gets the value of a coin with its name")
 async def getCoin(interaction: discord.Interaction, coin_name: str):
     try:
         await interaction.response.send_message(getCoinValue(coin_name))
@@ -28,7 +28,7 @@ async def getCoin(interaction: discord.Interaction, coin_name: str):
         await interaction.response.send_message("Invalid input, try again", ephemeral=True)
 
 # Lets you see the top trending coins
-@bot.tree.command(name="trending")
+@bot.tree.command(name="trending", description="Gets the top trending coins")
 async def getTrending(interaction: discord.Interaction):
     try:
         await interaction.response.send_message(trending())
@@ -36,7 +36,7 @@ async def getTrending(interaction: discord.Interaction):
         await interaction.response.send_message(e, ephemeral=True)
 
 # Lets you see your list of coins
-@bot.tree.command(name="checklist")
+@bot.tree.command(name="checklist", description="Checks your list of coins")
 async def checkList(interaction: discord.Interaction):
     userID = interaction.user.id
     try:
@@ -44,7 +44,7 @@ async def checkList(interaction: discord.Interaction):
     except Exception as e:
         await interaction.response.send_message(e, ephemeral=True)
 
-@bot.tree.command(name="addcoin")
+@bot.tree.command(name="addcoin", description="Adds a coin to your list")
 async def addCoin(interaction: discord.Interaction, coin_name: str):
     userID = interaction.user.id
     try:
