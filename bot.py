@@ -3,6 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 from config import botToken # Hides token for GitHub
 from crypto import * # Gets functions from Crypto API
+from database import * # Gets functions from data.py (sqlite)
 
 intents = discord.Intents.all()
 intents.message_content = True
@@ -26,10 +27,28 @@ async def getCoin(interaction: discord.Interaction, coin_name: str):
     except Exception as e:
         await interaction.response.send_message("Invalid input, try again", ephemeral=True)
 
+# Lets you see the top trending coins
 @bot.tree.command(name="trending")
 async def getTrending(interaction: discord.Interaction):
     try:
         await interaction.response.send_message(trending())
+    except Exception as e:
+        await interaction.response.send_message(e, ephemeral=True)
+
+# Lets you see your list of coins
+@bot.tree.command(name="checklist")
+async def checkList(interaction: discord.Interaction):
+    userID = interaction.user.id
+    try:
+        await interaction.response.send_message(getUserList(userID))
+    except Exception as e:
+        await interaction.response.send_message(e, ephemeral=True)
+
+@bot.tree.command(name="addcoin")
+async def addCoin(interaction: discord.Interaction, coin_name: str):
+    userID = interaction.user.id
+    try:
+        await interaction.response.send_message(addUserList(userID, coin_name))
     except Exception as e:
         await interaction.response.send_message(e, ephemeral=True)
 
